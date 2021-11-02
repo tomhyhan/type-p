@@ -1,25 +1,35 @@
 ### What are the features?
 
-**must have**
-**Header**
+## must have
+
+# Header
 
 1. Header with title and buttons
 2. When user clicks a button popup page appears
 3. Depending on the button input form appears => input form class
-   **body**
-4. Card with different content => card class: So what this class do? - Add am image - Add Youtube Vid - Add a note - Add Todo - Add Delete
-   **design**
+
+# body
+
+1. Add am image
+2. Add Youtube Vid
+3. Add a note
+4. Add Todo
+5. Delete Component
+
+#design
 
 - background and color for header
 - background and color for body
-  good to have
-  **Footer**
+
+## good to have
+
+**Footer**
 
 1. about something
 
 - As a user, I want to drag & drop the card
 
-nice to have
+## nice to have
 
 - don't know yet
 
