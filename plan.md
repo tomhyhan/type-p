@@ -1,14 +1,14 @@
-### What are the features?
+# What are the features?
 
 ## must have
 
-# Header
+### Header
 
 1. Header with title and buttons
 2. When user clicks a button popup page appears
 3. Depending on the button input form appears => input form class
 
-# body
+### body
 
 1. Add am image
 2. Add Youtube Vid
