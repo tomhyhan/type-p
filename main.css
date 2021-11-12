@@ -45,8 +45,8 @@ body {
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  height: 100vh;
-  overflow:hidden;
+  height: 100%;
+  /* overflow:hidden; */
 }
 
 .motion {
@@ -85,12 +85,21 @@ header {
   padding: var(--space) 1rem;
 }
 
+.pageItem {
+  display: flex;
+  -webkit-box-shadow: 4px 7px 10px 3px rgba(0,0,0,0.68); 
+  box-shadow: 4px 7px 10px 3px rgba(0,0,0,0.68);
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
 .main {
   background-color: var(--bg-accent-color);
   padding: var(--space);
   margin: 0;
   height: 100vh;
   max-height: 700px;
+  overflow-y: auto;
 }
 
 /* ===== Scrollbar CSS ===== */
@@ -135,13 +144,13 @@ section {
   max-height: 250px;
   margin: 1rem;
   margin-top: 0;
-  -webkit-box-shadow: 4px 7px 10px 3px rgba(0,0,0,0.68); 
-  box-shadow: 4px 7px 10px 3px rgba(0,0,0,0.68);
+
 }
 
 /* Image Component / Template */
 .image-template {
   display: flex;
+  flex-basis: 100%;
 }
 
 .image-title {
@@ -155,6 +164,10 @@ section {
 /* Video Component */
 .video-template {
   display: flex;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .video-title {
@@ -162,7 +175,25 @@ section {
   display: flex;
   justify-content: center;
   margin-left: var(--space );
-  width:50%
+  width:100%
+}
+
+.video-body {
+  width: 100%;
+  height: 100%
+}
+
+/* Todo Component */
+.todo-template {
+  display: flex;
+}
+
+.todo-title {
+  font-size: var(--font-size-title);
+  display: flex;
+  justify-content: center;
+  margin-left: var(--space );
+  width:100%
 }
 
 

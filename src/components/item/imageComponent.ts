@@ -6,7 +6,6 @@ export class ImageComponent extends BaseComponent<HTMLTemplateElement> {
     <section class="image-template">
         <img class='image-thumbnail'>
         <p class="image-title"></p>
-        <button class='remove-btn'>&#10006</button>
     </section>
     `);
 

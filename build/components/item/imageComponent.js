@@ -5,7 +5,6 @@ export class ImageComponent extends BaseComponent {
     <section class="image-template">
         <img class='image-thumbnail'>
         <p class="image-title"></p>
-        <button class='remove-btn'>&#10006</button>
     </section>
     `);
         const image = this.element.querySelector('.image-thumbnail');

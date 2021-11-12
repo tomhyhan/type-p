@@ -1,22 +1,26 @@
-export class VideoComponent {
+import { BaseComponent } from './BaseComponent.js';
+export class VideoComponent extends BaseComponent {
     constructor(url, title) {
-        console.log(url);
-        this.node = document.createElement('li');
-        this.node.innerHTML = `
+        super(`
     <section class="video-template">
-        <iframe class="video-body" width="620" height="250">
+        <iframe allow="fullscreen;" class="video-body" >
         </iframe>
         <p class="video-title"></p>
     </section>
-      `;
-        const node = this.node.firstElementChild;
-        const video = node.querySelector('.video-body');
-        video.src = url;
-        const videoTitle = node.querySelector('.video-title');
+      `);
+        const video = this.element.querySelector('.video-body');
+        video.src = this.createVideoLink(url);
+        const videoTitle = this.element.querySelector('.video-title');
         videoTitle.textContent = title;
     }
-    attachTo(parent, position = 'afterbegin') {
-        parent.insertAdjacentElement(position, this.node);
+    createVideoLink(url) {
+        const IdRegex = /^(?:https?:\/\/)?(?:www\.)?(?:(?:youtube.com\/(?:(?:watch\?v=)|(?:embed\/))([a-zA-Z0-9-]{11}))|(?:youtu.be\/([a-zA-Z0-9-]{11})))/m;
+        const matches = url.match(IdRegex);
+        const videoId = matches ? matches[1] || matches[2] : null;
+        if (videoId) {
+            return `https://www.youtube.com/embed/${videoId}`;
+        }
+        return url;
     }
 }
 //# sourceMappingURL=videoComponent.js.map

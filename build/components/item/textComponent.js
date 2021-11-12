@@ -1,20 +1,16 @@
-export class TextComponent {
+import { BaseComponent } from './BaseComponent.js';
+export class TextComponent extends BaseComponent {
     constructor(title, text) {
-        this.node = document.createElement('li');
-        this.node.innerHTML = `
+        super(`
     <section class="text-template">
-        <h2 class="text-title">Hello</h2>
-        <p class="text-body">asdfasdfasfd</p>
+      <h2 class="text-title"></h2>
+      <p class="text-body"></p>
     </section>
-      `;
-        const node = this.node.firstElementChild;
-        const textTitle = node.querySelector('.text-title');
+      `);
+        const textTitle = this.element.querySelector('.text-title');
         textTitle.innerHTML = `Title: ${title}`;
-        const textBody = node.querySelector('.text-body');
+        const textBody = this.element.querySelector('.text-body');
         textBody.textContent = text;
-    }
-    attachTo(parent, position = 'afterbegin') {
-        parent.insertAdjacentElement(position, this.node);
     }
 }
 //# sourceMappingURL=textComponent.js.map

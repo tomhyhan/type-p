@@ -1,0 +1,1 @@
+{"version":3,"file":"pageItemComponent.js","sourceRoot":"","sources":["../../../src/components/item/pageItemComponent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAa,MAAM,oBAAoB,CAAC;AAE9D,MAAM,OAAO,iBAAkB,SAAQ,aAA0B;IAC/D;QACE,KAAK,CAAC,WAAW,CAAC,CAAC;IACrB,CAAC;IAED,QAAQ,CAAC,SAAoB;QAC3B,SAAS,CAAC,QAAQ,CAAC,IAAI,CAAC,OAAO,CAAC,CAAC;IACnC,CAAC;CACF"}
