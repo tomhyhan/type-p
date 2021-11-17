@@ -1,65 +1,42 @@
 import { ImageComponent } from './components/item/imageComponent.js';
+import { ImgVidComponent } from './components/item/imgVidComponent.js';
 import { ModalComponent } from './components/item/modelComponent.js';
 import { TextComponent } from './components/item/textComponent.js';
+import { TextTodoComponent } from './components/item/textTodoComponent.js';
 import { TodoComponent } from './components/item/todoComponent.js';
 import { VideoComponent } from './components/item/videoComponent.js';
 import { PageComponent, PageItemConponent, } from './components/pageComponent.js';
 class App {
-    constructor(appRoot) {
-        var _a, _b, _c, _d;
+    constructor(appRoot, documentBody) {
         this.appRoot = appRoot;
+        this.documentBody = documentBody;
         this.page = new PageComponent(PageItemConponent);
         this.page.attachTo(this.appRoot);
-        const image = new ImageComponent('https://picsum.photos/500/200', 'Random Image');
-        this.page.addChild(image);
-        const video = new VideoComponent('https://www.youtube.com/watch?v=Pik2nUjG7OI', 'Programming');
-        this.page.addChild(video);
-        const todo = new TodoComponent('Here is your Todo', 'todo');
-        this.page.addChild(todo);
-        const note = new TextComponent('Here is your title', 'Here is your text');
-        this.page.addChild(note);
-        (_a = document.getElementById('image-form')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => {
+        this.page.addChild(new ImageComponent('https://picsum.photos/500/200', 'image title'));
+        this.page.addChild(new ImageComponent('https://picsum.photos/500/200', 'image title'));
+        this.page.addChild(new ImageComponent('https://picsum.photos/500/200', 'image title'));
+        this.bindModalToComponent('image-form', ImgVidComponent, (input) => new ImageComponent(input.url, input.title));
+        this.bindModalToComponent('vedio-form', ImgVidComponent, (input) => new VideoComponent(input.url, input.title));
+        this.bindModalToComponent('note-form', TextTodoComponent, (input) => new TextComponent(input.title, input.body));
+        this.bindModalToComponent('task-form', TextTodoComponent, (input) => new TodoComponent(input.title, input.body));
+    }
+    bindModalToComponent(selector, formComponent, makeSection) {
+        const element = document.getElementById(selector);
+        element.addEventListener('click', () => {
             const modal = new ModalComponent();
-            modal.attachTo(this.appRoot);
+            const form = new formComponent();
+            modal.addChild(form);
+            modal.attachTo(this.documentBody);
             modal.setOnCloseListner(() => {
-                modal.removeFrom(this.appRoot);
+                modal.removeFrom(this.documentBody);
             });
             modal.setOnSubmitListner(() => {
-                console.log('submited');
-                modal.removeFrom(this.appRoot);
-            });
-        });
-        (_b = document.getElementById('vedio-form')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', () => {
-            const modal = new ModalComponent();
-            modal.attachTo(this.appRoot);
-            modal.setOnCloseListner(() => {
-                modal.removeFrom(this.appRoot);
-            });
-            modal.setOnSubmitListner(() => {
-                modal.removeFrom(this.appRoot);
-            });
-        });
-        (_c = document.getElementById('note-form')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', () => {
-            const modal = new ModalComponent();
-            modal.attachTo(this.appRoot);
-            modal.setOnCloseListner(() => {
-                modal.removeFrom(this.appRoot);
-            });
-            modal.setOnSubmitListner(() => {
-                modal.removeFrom(this.appRoot);
-            });
-        });
-        (_d = document.getElementById('task-from')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', () => {
-            const modal = new ModalComponent();
-            modal.attachTo(this.appRoot);
-            modal.setOnCloseListner(() => {
-                modal.removeFrom(this.appRoot);
-            });
-            modal.setOnSubmitListner(() => {
-                modal.removeFrom(this.appRoot);
+                const section = makeSection(form);
+                this.page.addChild(section);
+                modal.removeFrom(this.documentBody);
             });
         });
     }
 }
-new App(document.querySelector('.main'));
+new App(document.querySelector('.main'), document.body);
 //# sourceMappingURL=app.js.map

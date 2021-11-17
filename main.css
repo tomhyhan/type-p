@@ -237,3 +237,6 @@ section {
 }
 
 
+.remove-btn {
+  cursor: pointer;
+}

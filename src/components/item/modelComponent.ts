@@ -2,10 +2,13 @@ import { Composable, OnCloseListner } from '../pageComponent.js';
 import { BaseComponent, Component } from './BaseComponent.js';
 
 type OnSubmitListner = () => void;
-
+export interface Modal extends Composable, Component {
+  setOnCloseListner(listener: OnCloseListner): void;
+  setOnSubmitListner(listener: OnSubmitListner): void;
+}
 export class ModalComponent
   extends BaseComponent<HTMLElement>
-  implements Composable
+  implements Modal
 {
   private closeListener?: OnCloseListner;
   private submitListener?: OnSubmitListner;
