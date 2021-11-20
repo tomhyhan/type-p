@@ -10,5 +10,8 @@ export class BaseComponent {
     removeFrom(parent) {
         parent.removeChild(this.element);
     }
+    attach(component, position = 'beforebegin') {
+        component.attachTo(this.element, position);
+    }
 }
 //# sourceMappingURL=BaseComponent.js.map

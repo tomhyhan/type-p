@@ -10,7 +10,9 @@ export interface Composable {
 
 export interface ItemConponent extends Component, Composable {
   setOnCloseListener(listner: OnCloseListner): void;
-  setOnDragStateListner(listner: OnDragStateListner<ItemConponent>): void;
+  setOnDragStateListener(listner: OnDragStateListner<ItemConponent>): void;
+  muteChildren(state: 'mute' | 'unmute'): void;
+  getBoundingRect(): DOMRect;
 }
 
 export type ItemComponentConstructor = {
@@ -29,6 +31,9 @@ export class PageComponent
   extends BaseComponent<HTMLUListElement>
   implements Composable
 {
+  private children = new Set<ItemConponent>();
+  private dragTarget?: ItemConponent;
+  private dropTarget?: ItemConponent;
   constructor(private itemComponent: ItemComponentConstructor) {
     super(`<ul class='page'></ul>`);
 
@@ -37,7 +42,7 @@ export class PageComponent
     });
 
     this.element.addEventListener('drop', (e: DragEvent) => {
-      this.onDragEnd(e);
+      this.onDrop(e);
     });
   }
 
@@ -45,8 +50,18 @@ export class PageComponent
     e.preventDefault();
   }
 
-  onDragEnd(e: DragEvent) {
+  onDrop(e: DragEvent) {
     e.preventDefault();
+    if (!this.dropTarget) return;
+    if (this.dragTarget && this.dragTarget !== this.dropTarget) {
+      const dropY = e.clientY;
+      const srcElement = this.dragTarget.getBoundingRect();
+      this.dragTarget.removeFrom(this.element);
+      this.dropTarget.attach(
+        this.dragTarget,
+        dropY < srcElement.y ? 'beforebegin' : 'afterend'
+      );
+    }
   }
 
   addChild(child: ItemConponent) {
@@ -55,9 +70,36 @@ export class PageComponent
     item.addChild(child);
     item.setOnCloseListener(() => {
       item.removeFrom(this.element);
+      this.children.delete(item);
     });
-    item.setOnDragStateListner((target: ItemConponent, state: DragState) => {
-      console.log(target, state);
+    this.children.add(item);
+    item.setOnDragStateListener((target: ItemConponent, state: DragState) => {
+      switch (state) {
+        case 'start':
+          this.dragTarget = target;
+          this.updateSections('mute');
+          this.element.classList.add('lifted');
+          break;
+        case 'stop':
+          this.dragTarget = undefined;
+          this.updateSections('unmute');
+          this.element.classList.remove('lifted');
+          break;
+        case 'enter':
+          this.dropTarget = target;
+          break;
+        case 'leave':
+          this.dropTarget = undefined;
+          break;
+        default:
+          throw new Error('UnSupported ');
+      }
+    });
+  }
+
+  private updateSections(state: 'mute' | 'unmute') {
+    this.children.forEach((item: ItemConponent) => {
+      item.muteChildren(state);
     });
   }
 }
@@ -94,7 +136,7 @@ export class PageItemConponent
       this.onDragEnter(e);
     });
 
-    this.element.addEventListener('dragend', (e: DragEvent) => {
+    this.element.addEventListener('dragleave', (e: DragEvent) => {
       this.onDragLeave(e);
     });
   }
@@ -115,7 +157,8 @@ export class PageItemConponent
   notifyDragObservers(state: DragState) {
     this.dragStateListner && this.dragStateListner(this, state);
   }
-  setOnDragStateListner(listener: OnDragStateListner<PageItemConponent>) {
+
+  setOnDragStateListener(listener: OnDragStateListner<PageItemConponent>) {
     this.dragStateListner = listener;
   }
 
@@ -128,5 +171,16 @@ export class PageItemConponent
 
   setOnCloseListener(listner: OnCloseListner) {
     this.closeListener = listner;
+  }
+  muteChildren(state: 'mute' | 'unmute') {
+    if (state === 'mute') {
+      this.element.classList.add('mute-Children');
+    } else {
+      this.element.classList.remove('mute-Children');
+    }
+  }
+
+  getBoundingRect(): DOMRect {
+    return this.element.getBoundingClientRect();
   }
 }

@@ -240,3 +240,24 @@ section {
 .remove-btn {
   cursor: pointer;
 }
+
+
+/* Drag & Drop */
+.mute-children * {
+  pointer-events: none;
+}
+
+.lifted {
+  animation: dragStart 250ms;
+  opacity: 0.2;
+}
+
+@keyframes dragStart {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.2
+  }
+}
